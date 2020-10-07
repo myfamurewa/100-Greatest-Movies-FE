@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import Link from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import axios from 'axios'
 export default function Home() {
     const [movies, setMovies] = useState([])
@@ -26,7 +26,7 @@ export default function Home() {
             {error && <span>An error has occurred {error}</span>}
             {movies.map(movie => (
                  <div className="movies" key={movie.id}>
-                    <h1>{movie.id}. {movie.name}</h1>
+                    <Link to={`/movies/${movie.id}`} ><h1>{movie.id}. {movie.name}</h1></Link>
                     <h4>Year: {movie.year}</h4>
                     <ul>
                     {movie.categories.split(",").map(category => (
