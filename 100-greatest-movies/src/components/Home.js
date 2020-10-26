@@ -9,10 +9,11 @@ import {
   Heading,
   Text,
   Link,
-  Icon
+  Icon,
+  Flex
 } from "@chakra-ui/core";
 import axios from "axios";
-export default function Home({ ThemeProvider }) {
+export default function Home() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState();
   const [ratings, setRatings] = useState([]);
@@ -39,36 +40,37 @@ export default function Home({ ThemeProvider }) {
       });
   }, []);
   return (
-    <Stack maxWidth="70vw" spacing={8} align="center" direction="row" shouldWrapChildren="true" >
+    // <Flex maxWidth="70vw" spacing={8} align="center" direction="row" shouldWrapChildren="true" >
+    <Flex align="center" wrap="true" direction="row" justify="space-around">
       {error && <span>An error has occurred {error}</span>}
       {movies.map((movie) => (
         <Box
           p={5}
-          maxW="sm"
-          shadow="md"
-          borderWidth="1px"
+          shadow="lg"
+          borderWidth="5px"
           flex="1"
           round="md"
           overflow="hidden"
           className="movies"
-          p={4}
+          margin=".5%"
           key={movie.id}
+          rounded="md"
+          background="linear-gradient( rgba(9,171,255,1) 0%, rgba(5,89,128,1) 49%, rgba(67,76,78,1) 100%);"
         >
-          <Link color="gold" as={RouterLink} to={`/movies/${movie.id}`}>
+          <Text color="gold" fontWeight="bold" fontSize="1.3em" position="relative" right="45%" bottom="17%">{movie.id}</Text>
+          <Link as={RouterLink} to={`/movies/${movie.id}`} color="#9ac7fa" fontFamily="Montserrat"  >
             <Heading as="h1" size="2x1">
-              {movie.id}. {movie.name}
+               {movie.name}
             </Heading>
           </Link>
-          <Heading as="sm" size="3x2">{movie.year}</Heading>
-          <Box alignItems="center">
-          <List as="ul">
+          <List as="ul" >
+            <ListItem color="white" display="inline"><ListIcon><Heading as="sm" size="3x2">({movie.year})</Heading></ListIcon></ListItem>
             {movie.categories.split(",").map((category) => (
-              <ListItem display="inline">
+              <ListItem color="white" fontWeight="bold" display="inline">
                 <ListIcon>{category}</ListIcon>
               </ListItem>
             ))}
           </List>
-          </Box>
           <Box
             mt="1"
             fontWeight="semibold"
@@ -76,10 +78,10 @@ export default function Home({ ThemeProvider }) {
             lineHeight="tight"
             isTruncated
           >
-            <p>{movie.runtime} minutes</p>
-            <p>{movie.summary}</p>
-            <p>
-              Rating:{" "}
+            <Text color="white">{movie.runtime} minutes</Text>
+            <Text color="white">{movie.summary}</Text>
+            <Text color="white">
+              {/* Rating:{" "} */}
               {Array(5)
                 .fill("")
                 .map((_, i) => (
@@ -98,10 +100,10 @@ export default function Home({ ThemeProvider }) {
                     </Icon>
                 ))
               }
-            </p>
+            </Text>
           </Box>
         </Box>
       ))}
-    </Stack>
+    </Flex>
   );
 }
