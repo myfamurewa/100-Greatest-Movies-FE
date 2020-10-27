@@ -25,7 +25,7 @@ export default function StarRating(props) {
           const ratingValue = i + 1;
 
           return (
-            <label>
+            <label key={i}>
               <input
                 type="radio"
                 name="rating"
@@ -34,6 +34,7 @@ export default function StarRating(props) {
                 onClick={() => setRating(ratingValue)}
               />
                 <FaStar
+                  key={ratingValue}
                   className="star"
                   color={ratingValue <= (hover || rating) ? "gold" : "gray"}
                   size={50}

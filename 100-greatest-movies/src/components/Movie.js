@@ -90,11 +90,12 @@ export default function Movie() {
         <Stars size={50} ratingFactor={rating.reduce((acc, cv) => {
               return acc + cv.rating;
             }, 0) / rating.length}/>
+        <span>{rating.length} ratings</span>
       </div>
       <div className="comment-Section">
         <h2>Comments:</h2>
         {comments.map((comment) => (
-          <Comment key={comment.id} movie_id={id} comment={comment} />
+          <Comment key={comment.id} setComments={setComments} comments={comments} movie_id={id} comment={comment} />
         ))}
         <button onClick={()=> setCommenting(true)}>Comment</button>
       </div>

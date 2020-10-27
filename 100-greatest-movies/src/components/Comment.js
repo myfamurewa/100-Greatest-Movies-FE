@@ -18,16 +18,19 @@ export default function Comment(props) {
     .then(res => {
       console.log(res)
       console.log("successful deletion")
+      props.setComments(props.comments.filter(comment => comment.id !== props.comment.id))
     }).catch(err => {
       console.log("something went wrong", err)
     })
   }
 
   const updateComment = () => {
-    axios.put(`http://localhost:5000/movies/${props.movie_id}/comments/${props.comment.id}`)
+    console.log("updated comment before submission", updatedComment)
+    axios.put(`http://localhost:5000/movies/${props.movie_id}/comments/${props.comment.id}`, updatedComment)
     .then(res => {
       console.log(res)
       console.log("successful update of comment")
+      setUpdatingComment(false)
     }).catch(err => {
       console.log("something went wrong while trying to update your post", err)
     })
@@ -41,7 +44,9 @@ export default function Comment(props) {
 
   return (
     <div>
-      <p>{props.comment.text}</p>
+     {updatingComment?(<div><textarea name="text" value={updatedComment.text} placeholder="comment here" onChange={handleChange}/>
+        <button onClick={()=> updateComment()} >Submit Comment</button>
+        <button onClick={()=> setUpdatingComment(false)}>Cancel</button></div>) :(<div><p>{props.comment.text}</p>
       <span>
         posted{" "}
         {hours > 24
@@ -53,16 +58,9 @@ export default function Comment(props) {
           ? "(edited)"
           : ""}
       </span>
-      <button onClick={() => deleteComment}>Delete Comment</button>
-      <button onClick={() => editComment}>Edit Comment</button>
-      {updatingComment && (
-        <div>
-        <textarea name="text" value={updatedComment.text} placeholder="comment here" onChange={handleChange}/>
-        <br></br>
-        <button onClick={()=> updateComment()} >Submit Comment</button>
-        <button onClick={()=> setUpdatingComment(false)}>Cancel</button>
-        </div>
-      )}
+      <button onClick={() => deleteComment()}>Delete Comment</button>
+      <button onClick={() => editComment()}>Edit Comment</button>
+      </div>)}
     </div>
   );
 }
