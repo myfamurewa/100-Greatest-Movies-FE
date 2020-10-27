@@ -1,11 +1,43 @@
-import React from "react";
+import React, {useState} from "react";
 import moment from "moment";
+import axios from "axios"
 export default function Comment(props) {
   const created = moment(props.comment.created_at);
   const now = moment(Date.now());
   const hours = Math.floor(
     Math.abs(moment.duration(now.diff(created)).asHours())
   );
+  const [updatingComment, setUpdatingComment] = useState(false)
+  const [updatedComment, setUpdatedComment] = useState(null)
+  const editComment = () => {
+    setUpdatingComment(true)
+    setUpdatedComment(props.comment)
+  }
+  const deleteComment = () => {
+    axios.delete(`http://localhost:5000/movies/${props.movie_id}/comments/${props.comment.id}`)
+    .then(res => {
+      console.log(res)
+      console.log("successful deletion")
+    }).catch(err => {
+      console.log("something went wrong", err)
+    })
+  }
+
+  const updateComment = () => {
+    axios.put(`http://localhost:5000/movies/${props.movie_id}/comments/${props.comment.id}`)
+    .then(res => {
+      console.log(res)
+      console.log("successful update of comment")
+    }).catch(err => {
+      console.log("something went wrong while trying to update your post", err)
+    })
+  }
+  const handleChange = e => {
+    setUpdatedComment({
+      ...updatedComment,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <div>
@@ -21,6 +53,16 @@ export default function Comment(props) {
           ? "(edited)"
           : ""}
       </span>
+      <button onClick={() => deleteComment}>Delete Comment</button>
+      <button onClick={() => editComment}>Edit Comment</button>
+      {updatingComment && (
+        <div>
+        <textarea name="text" value={updatedComment.text} placeholder="comment here" onChange={handleChange}/>
+        <br></br>
+        <button onClick={()=> updateComment()} >Submit Comment</button>
+        <button onClick={()=> setUpdatingComment(false)}>Cancel</button>
+        </div>
+      )}
     </div>
   );
 }

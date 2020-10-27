@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
 import Comment from "./Comment";
+import StarRating from "./StarRating"
+import Stars from "./Stars";
 export default function Movie() {
   const { id } = useParams();
   const history = useHistory();
@@ -32,10 +34,10 @@ export default function Movie() {
       .then(res => {
           console.log("a comment was made successfully")
           setCommenting(false)
-          setComments([
-              ...comments,
-              comment
-          ])
+          // setComments([
+          //     ...comments,
+          //     comment
+          // ])
       })
       .catch(err => {
           console.log("something went wrong while trying to post your comment")
@@ -85,20 +87,14 @@ export default function Movie() {
         </ul>
         <p>Runtime: {movie.runtime}</p>
         <p>Summary: {movie.summary}</p>
-        <p>
-          Rating:{" "}
-          {Math.round(
-            rating.reduce((acc, cv) => {
+        <Stars size={50} ratingFactor={rating.reduce((acc, cv) => {
               return acc + cv.rating;
-            }, 0) / rating.length
-          )}
-          ⭐'s
-        </p>
+            }, 0) / rating.length}/>
       </div>
       <div className="comment-Section">
         <h2>Comments:</h2>
         {comments.map((comment) => (
-          <Comment key={comment.id} comment={comment} />
+          <Comment key={comment.id} movie_id={id} comment={comment} />
         ))}
         <button onClick={()=> setCommenting(true)}>Comment</button>
       </div>
@@ -110,6 +106,7 @@ export default function Movie() {
         <button onClick={()=> setCommenting(false)}>Cancel</button>
         </div>
       )}
+      <StarRating id={id}/>
     </div>
   );
 }

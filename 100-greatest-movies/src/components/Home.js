@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
+import Stars from "./Stars"
 import axios from 'axios'
 export default function Home() {
     const [movies, setMovies] = useState([])
     const [error, setError] = useState()
     const [ratings, setRatings] = useState([])
+    
     useEffect(() => {
        axios.get("http://localhost:5000/movies/").then(res => {
            console.log(res)
@@ -35,9 +37,9 @@ export default function Home() {
                     </ul>
                     <p>Runtime: {movie.runtime}</p>
                     <p>Summary: {movie.summary}</p>
-                    <p>Rating: {Math.round(ratings.filter(rating => rating.movie_id === movie.id).reduce((acc, cv) => {
+                    <Stars size={25} ratingFactor={ratings.filter(rating => rating.movie_id === movie.id).reduce((acc, cv) => {
                         return acc + cv.rating
-                    }, 0) / ratings.filter(rating => rating.movie_id === movie.id).length)}⭐'s</p>
+                    }, 0) / ratings.filter(rating => rating.movie_id === movie.id).length}></Stars>
                     </div>
             ))}
         </div>
