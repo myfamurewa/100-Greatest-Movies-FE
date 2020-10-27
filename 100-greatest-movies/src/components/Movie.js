@@ -85,7 +85,7 @@ export default function Movie() {
             <li key={category}>{category}</li>
           ))}
         </ul>
-        <p>Runtime: {movie.runtime}</p>
+        <p>{movie.runtime} minutes</p>
         <p>Summary: {movie.summary}</p>
         <Stars size={50} ratingFactor={rating.reduce((acc, cv) => {
               return acc + cv.rating;
