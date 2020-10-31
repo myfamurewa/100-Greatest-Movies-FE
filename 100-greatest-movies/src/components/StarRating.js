@@ -19,6 +19,7 @@ export default function StarRating(props) {
           console.log(err)
       })
   }
+  // small changes
   return (
     <div>
       {[...Array(5)].map((star, i) => {

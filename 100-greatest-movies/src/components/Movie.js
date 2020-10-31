@@ -6,7 +6,6 @@ import StarRating from "./StarRating"
 import Stars from "./Stars";
 export default function Movie() {
   const { id } = useParams();
-  const history = useHistory();
   const [commenting, setCommenting] = useState(false);
   const [comment, setNewComment] = useState({
     text: "",
@@ -22,7 +21,7 @@ export default function Movie() {
     rating: null,
   });
   const [rating, setRating] = useState([]);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]); 
   const handleChange = e => {
     setNewComment({
       ...comment,
