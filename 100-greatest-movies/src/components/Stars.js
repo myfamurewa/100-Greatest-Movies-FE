@@ -10,6 +10,7 @@ export default function Stars(props) {
                   className="star"
                   color={i < Math.round(props.ratingFactor)? "gold": "gray"}
                   size={props.size}
+                  
                 />
             ))}
             

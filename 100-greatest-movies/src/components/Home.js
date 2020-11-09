@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import {Link} from 'react-router-dom'
-import {MovieList, Movie, MovieChar, MovieChars} from './movieListElements'
+import {MovieList, Movie, MovieChar, MovieChars, TitleCard} from './movieListElements'
 import Navbar from "./Navbar"
 import Stars from "./Stars"
 import axios from 'axios'
@@ -31,8 +31,8 @@ export default function Home() {
             {error && <span>An error has occurred {error}</span>}
             <MovieList>
             {movies.map(movie => (
-                 <div className="movies" key={movie.id}>
-                    <Link to={`/movies/${movie.id}`} ><h1>{movie.id}. {movie.name}</h1></Link>
+                 <Movie className="movies" key={movie.id}>
+                    <Link to={`/movies/${movie.id}`} ><TitleCard>{movie.id}. {movie.name}</TitleCard></Link>
                     <MovieChars>
                     <MovieChar>({movie.year})</MovieChar>
                     {movie.categories.split(",").map(category => (
@@ -40,11 +40,11 @@ export default function Home() {
                     ))}
                     </MovieChars>
                     <p>{movie.runtime} minutes</p>
-                    <p>Summary: {movie.summary}</p>
+                    {/* <p>Summary: {movie.summary}</p> */}
                     <Stars size={25} ratingFactor={ratings.filter(rating => rating.movie_id === movie.id).reduce((acc, cv) => {
                         return acc + cv.rating
                     }, 0) / ratings.filter(rating => rating.movie_id === movie.id).length}></Stars>
-                    </div>
+                    </Movie>
             ))}
             </MovieList>
         </>
